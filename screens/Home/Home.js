@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import style from './style';
 import Header from '../../components/Header/Header';
 import {
@@ -22,10 +22,35 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {updateSelectedCategoryId} from '../../redux/reducers/Categories';
 
 const Home = () => {
+  const categories = useSelector(state => state.categories);
+  const donations = useSelector(state => state.donations);
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
-  const categories = useSelector(state => state.categories);
-  console.log(categories);
+
+  const [categoryPage, setCategoryPage] = useState(1);
+  const [categoryList, setCategorylist] = useState([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+  const categoryPageSize = 4;
+
+  console.log(donations);
+
+  useEffect(() => {
+    setIsLoadingCategories(true);
+    setCategorylist(
+      pagination(categories.categories, categoryPage, categoryPageSize),
+    );
+    setCategoryPage(prev => prev + 1);
+    setIsLoadingCategories(false);
+  }, []);
+
+  const pagination = (items, pageNumber, pageSize) => {
+    const startIndex = (pageNumber - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    if (startIndex >= items.length) {
+      return [];
+    }
+    return items.slice(startIndex, endIndex);
+  };
 
   return (
     <SafeAreaView style={(globalstyle.backgroundWhite, globalstyle.flex)}>
@@ -58,6 +83,23 @@ const Home = () => {
         </View>
         <View style={style.categories}>
           <FlatList
+            onEndReachedThreshold={0.5}
+            onEndReached={() => {
+              if (isLoadingCategories) {
+                return;
+              }
+              setIsLoadingCategories(true);
+              let newData = pagination(
+                categories.categories,
+                categoryPage,
+                categoryPageSize,
+              );
+              if (newData.length > 0) {
+                setCategorylist(prevState => [...prevState, ...newData]);
+                setCategoryPage(prevState => prevState + 1);
+              }
+              setIsLoadingCategories(false);
+            }}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             data={categories.categories}

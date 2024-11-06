@@ -2,6 +2,7 @@ import {configureStore, combineReducers} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import User from './reducers/User';
 import Categories from './reducers/Categories';
+import Donations from './reducers/Donations';
 import logger from 'redux-logger';
 import {persistReducer, persistStore} from 'redux-persist';
 import {version} from 'react';
@@ -9,6 +10,7 @@ import {version} from 'react';
 const rootReducer = combineReducers({
   user: User,
   categories: Categories,
+  donations: Donations,
 });
 
 const configuration = {
@@ -22,7 +24,8 @@ const store = configureStore({
   middleware: getDefaultMiddleware => {
     return getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(logger);
+    });
+    //.concat(logger);
   },
 });
 
