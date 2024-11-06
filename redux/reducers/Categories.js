@@ -55,7 +55,7 @@ const initialState = {
       name: 'Art and Craft Supplies',
     },
   ],
-  selectedCategory: 1,
+  selectedCategoryId: 1,
 };
 
 const Categories = createSlice({
@@ -66,7 +66,7 @@ const Categories = createSlice({
       return initialState;
     },
     updateSelectedCategoryId: (state, action) => {
-      state.selectedCategory = action.payload;
+      state.selectedCategoryId = action.payload;
     },
   },
 });
