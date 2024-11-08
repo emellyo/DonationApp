@@ -4,8 +4,9 @@ import Badge from '../Badge/Badge';
 
 const style = StyleSheet.create({
   image: {
-    width: horizontalScale(155),
+    width: horizontalScale(140),
     height: verticalScale(170),
+    borderRadius: horizontalScale(20),
   },
   badge: {
     position: 'absolute',

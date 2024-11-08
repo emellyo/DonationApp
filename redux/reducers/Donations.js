@@ -204,6 +204,7 @@ const initialState = {
     },
   ],
   selectedDonationId: null,
+  selectedDonationInformation: {},
 };
 
 const Donations = createSlice({
@@ -215,6 +216,9 @@ const Donations = createSlice({
     },
     updateselectedDonationId: (state, actions) => {
       state.selectedDonationId = actions.payload;
+      state.selectedDonationInformation = state.items.find(
+        item => item.donationItemId === actions.payload,
+      );
     },
   },
 });
