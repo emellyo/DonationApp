@@ -5,7 +5,7 @@ import {SafeAreaView, ScrollView} from 'react-native';
 import globalstyle from '../../../assets/styles/globalStyle';
 import BackButton from '../../../components/BackButton/BackButton';
 
-const SingleDonationItem = ({navigation}) => {
+const SingleDonationItem = ({navigation, route}) => {
   const donationItemInformation = useSelector(
     state => state.donations.selectedDonationInformation,
   );
